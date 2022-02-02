@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.List;
 
+@Data
 @Entity // Указывает, что данный класс является сущностью
 @Table(name = "books") // Задает имя таблицы, на которую будет отображаться сущность@AllArgsConstructor
 @AllArgsConstructor
