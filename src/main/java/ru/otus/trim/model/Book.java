@@ -3,11 +3,11 @@ package ru.otus.trim.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
 @Entity // Указывает, что данный класс является сущностью
 @Table(name = "books") // Задает имя таблицы, на которую будет отображаться сущность@AllArgsConstructor
 @AllArgsConstructor
@@ -24,18 +24,21 @@ public class Book {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     // Задает поле, по которому происходит объединение с таблицей для хранения связанной сущности
     @JoinColumn(name = "author")
+    @ToString.Exclude
     private Author author;
 
     // Указывает на связь между таблицами "один к одному"
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     // Задает поле, по которому происходит объединение с таблицей для хранения связанной сущности
     @JoinColumn(name = "genre")
+    @ToString.Exclude
     private Genre genre;
 
     // Указывает на связь между таблицами "многие ко многим"
     //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     // Задает таблицу связей между таблицами для хранения родительской и связанной сущностью
     //@JoinTable(name = "book_comments", joinColumns = @JoinColumn(name = "book"), inverseJoinColumns = @JoinColumn(name = "comment"))
+    //@ToString.Exclude
     //private List<Comment> courses;
 
 }

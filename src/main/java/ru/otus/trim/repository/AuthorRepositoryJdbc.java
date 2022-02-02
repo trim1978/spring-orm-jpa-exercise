@@ -35,7 +35,6 @@ public class AuthorRepositoryJdbc implements AuthorRepository {
     public Author save(Author author) {
         if (author.getId() <= 0) {
             em.persist(author);
-            em.flush();
             return author;
         } else {
             return em.merge(author);
