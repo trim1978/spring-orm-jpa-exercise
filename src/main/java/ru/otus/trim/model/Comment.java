@@ -3,6 +3,7 @@ package ru.otus.trim.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -18,6 +19,16 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Стратегия генерации идентификаторов
     private long id;
 
-    @Column(name = "text", nullable = false, unique = true)
+    @Column(name = "text", nullable = false)
     private String text;
+
+    //@Column(name = "time", nullable = false)
+    //private long time; // TODO
+
+    // Указывает на связь между таблицами "один к одному"
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    // Задает поле, по которому происходит объединение с таблицей для хранения связанной сущности
+    @JoinColumn(name = "book")
+    @ToString.Exclude
+    private Book book;
 }

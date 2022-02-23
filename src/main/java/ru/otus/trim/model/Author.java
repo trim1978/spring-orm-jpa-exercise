@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Author {
     @Id // Позволяет указать какое поле является идентификатором
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Стратегия генерации идентификаторов
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
 
     @Column(name = "name", nullable = false, unique = true)

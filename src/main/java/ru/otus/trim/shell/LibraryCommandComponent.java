@@ -5,6 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.trim.model.Author;
 import ru.otus.trim.model.Book;
+import ru.otus.trim.model.Comment;
 import ru.otus.trim.model.Genre;
 import ru.otus.trim.service.LibraryService;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 @ShellComponent
 @RequiredArgsConstructor
-public class QuizCommandComponent {
+public class LibraryCommandComponent {
 
     private final LibraryService library;
 
@@ -34,14 +35,14 @@ public class QuizCommandComponent {
 //    }
 
     @ShellMethod(value = "Remove book", key = {"remove_book","rb","db"})
-    public String removeBook(long id) {
-        Book removed = library.removeBookById(id);
+    public String removeBook(long bookID) {
+        Book removed = library.removeBookById(bookID);
         return "book was removed " + removed;
     }
 
     @ShellMethod(value = "Get book", key = {"get_book", "gb"})
-    public Book getBook(long id) {
-        return library.getBookById(id);
+    public Book getBook(long bookID) {
+        return library.getBookById(bookID);
     }
 
     @ShellMethod(value = "Get all authors", key = {"get_authors", "gaa"})
@@ -57,6 +58,16 @@ public class QuizCommandComponent {
     @ShellMethod(value = "Get all books", key = {"get_books","gab"})
     public List<Book> getBooks() {
         return library.getBooks();
+    }
+
+    @ShellMethod(value = "Get all comments", key = {"get_comments","gac"})
+    public List<Comment> getComments(long bookID) {
+        return library.getComments(bookID);
+    }
+
+    @ShellMethod(value = "Add comment", key = {"add_comment","ac"})
+    public Comment addComment(long bookID, String text) {
+        return library.addComment(bookID, text);
     }
 
 }

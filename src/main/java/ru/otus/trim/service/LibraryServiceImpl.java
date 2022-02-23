@@ -3,8 +3,10 @@ package ru.otus.trim.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.otus.trim.model.Comment;
 import ru.otus.trim.repository.AuthorRepository;
 import ru.otus.trim.repository.BookRepository;
+import ru.otus.trim.repository.CommentRepository;
 import ru.otus.trim.repository.GenreRepository;
 import ru.otus.trim.model.Author;
 import ru.otus.trim.model.Book;
@@ -20,6 +22,8 @@ public class LibraryServiceImpl implements LibraryService {
     public AuthorRepository authors;
     @Autowired
     public GenreRepository genres;
+    @Autowired
+    public CommentRepository comments;
 
 //    @Transactional
 //    @Override
@@ -46,7 +50,7 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public Book removeBookById(long bookID) {
         Book book = books.getBookById(bookID);
-        if (book != null) books.deleteBookById(bookID);
+        if (book != null) books.deleteBookById(book);
         return book;
     }
 
@@ -84,5 +88,27 @@ public class LibraryServiceImpl implements LibraryService {
     @Override
     public List<Genre> getGenres() {
         return genres.getAllGenres();
+    }
+
+    @Override
+    public Comment addComment(long bookID, String text) {
+        Book book = books.getBookById(bookID);
+        if (book != null) {
+            Comment comment = new Comment(0l, text, book);
+            comments.save(comment);
+            return comment;
+        }
+        return null;
+    }
+
+    @Override
+    public void removeComment(long commentID) {
+        Comment comment = new Comment(commentID, "", null);
+        comments.remove(comment);
+    }
+
+    @Override
+    public List<Comment> getComments(long bookId) {
+        return comments.getAllComments(bookId);
     }
 }

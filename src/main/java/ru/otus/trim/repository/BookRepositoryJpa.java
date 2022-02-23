@@ -1,27 +1,17 @@
 package ru.otus.trim.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import ru.otus.trim.model.Author;
 import ru.otus.trim.model.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
 import java.util.*;
 
 @Repository
 @RequiredArgsConstructor
-public class BookRepositoryJdbc implements BookRepository {
+public class BookRepositoryJpa implements BookRepository {
 
     @PersistenceContext
     private final EntityManager em;
@@ -50,8 +40,8 @@ public class BookRepositoryJdbc implements BookRepository {
     }
 
     @Override
-    public void deleteBookById(long id) {
-        em.remove(id);
+    public void deleteBookById(Book book) {
+        em.remove(book);
     }
 
 }

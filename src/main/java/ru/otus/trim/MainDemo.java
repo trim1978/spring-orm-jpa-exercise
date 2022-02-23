@@ -1,5 +1,6 @@
 package ru.otus.trim;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -11,10 +12,11 @@ import ru.otus.trim.service.LibraryService;
 import ru.otus.trim.service.LibraryServiceImpl;
 
 @SpringBootApplication
-//@ComponentScan("ru.otus.trim")
-//@Profile("demo")
+@ComponentScan("ru.otus.trim")
+@Profile("demo")
 public class MainDemo {
-
+    @Autowired
+    LibraryServiceImpl service;
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(MainDemo.class);//new AnnotationConfigApplicationContext(MainDemo.class);
         //AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MainDemo.class);

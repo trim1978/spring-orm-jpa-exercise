@@ -34,12 +34,4 @@ public class Book {
     @JoinColumn(name = "genre")
     @ToString.Exclude
     private Genre genre;
-
-    // Указывает на связь между таблицами "многие ко многим"
-    //@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    // Задает таблицу связей между таблицами для хранения родительской и связанной сущностью
-    //@JoinTable(name = "book_comments", joinColumns = @JoinColumn(name = "book"), inverseJoinColumns = @JoinColumn(name = "comment"))
-    //@ToString.Exclude
-    //private List<Comment> courses;
-
 }

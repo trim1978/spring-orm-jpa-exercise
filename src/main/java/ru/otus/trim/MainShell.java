@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
-@Profile("shell")
+//@Profile("shell")
 public class MainShell {
 
     public static void main(String[] args) {

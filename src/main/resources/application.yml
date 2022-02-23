@@ -1,20 +1,21 @@
+debug: false #включил дебаг по умолчанию на весь проект
 spring:
   datasource:
     url: jdbc:h2:mem:library
     #initialization-mode: never
     initialization-mode: always
-    schema: schema.sql
-    data: data.sql
+#    schema: schema.sql #не нужно указывать имя схемы если оно стандартное
+#    data: data.sql # аналогично
 
-  shell:
-    interactive:
-      enabled: false
+#  shell:
+#    interactive:
+#      enabled: false
 
   h2:
-    console:
-      path: /h2-console
-      settings:
-        web-allow-others: true
+#    console:
+#      path: /h2-console # стандартное обращение к консоли h2 указывать не нужно
+#      settings:
+#        web-allow-others: true
     console.enabled: true
 
   jpa:
@@ -25,12 +26,15 @@ spring:
   main:
     allow-circular-references: true
 
-    properties:
-      hibernate:
-        format_sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
 
     show-sql: true
 
+#  shell:    # отключение shell
+#    interactive:
+#      enabled: false
 
 logging:
   level:
