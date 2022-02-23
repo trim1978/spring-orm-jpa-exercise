@@ -1,5 +1,6 @@
 package ru.otus.trim.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,37 +15,13 @@ import ru.otus.trim.model.Genre;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class LibraryServiceImpl implements LibraryService {
-    @Autowired
-    public BookRepository books;
-    @Autowired
-    public AuthorRepository authors;
-    @Autowired
-    public GenreRepository genres;
-    @Autowired
-    public CommentRepository comments;
-
-//    @Transactional
-//    @Override
-//    public Book setBook(Book book) {
-//        Genre genre = book.getGenre();
-//        int genreId = genre.getId();
-////        if (genreId == 0) {
-////            genre = getGenre(genre.getName());
-////        }
-//        if (book.getId() == 0){
-//            Author author = book.getAuthor();
-//            if (author.getId() == 0){
-//                author = authors.insertAuthor(author.getName());
-//            }
-//            return books.insertBook(book.getTitle(), author.getId(), genreId);
-//        }
-//        else{
-//            books.updateBookById(book.getId(), genreId);
-//        }
-//        return book;
-//    }
+    public final BookRepository books;
+    public final AuthorRepository authors;
+    public final GenreRepository genres;
+    public final CommentRepository comments;
 
     @Transactional
     @Override
@@ -74,12 +51,6 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Transactional(readOnly = true)
     @Override
-    public Genre getGenre(String name) {
-        return genres.getAllGenres().stream().filter(t -> t.getName().equalsIgnoreCase(name)).findAny().orElse(null);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
     public List<Author> getAuthors() {
         return authors.getAllAuthors();
     }
@@ -90,23 +61,26 @@ public class LibraryServiceImpl implements LibraryService {
         return genres.getAllGenres();
     }
 
+    @Transactional
     @Override
     public Comment addComment(long bookID, String text) {
         Book book = books.getBookById(bookID);
         if (book != null) {
-            Comment comment = new Comment(0l, text, book);
+            Comment comment = new Comment(0L, text, book);
             comments.save(comment);
             return comment;
         }
         return null;
     }
 
+    @Transactional
     @Override
     public void removeComment(long commentID) {
         Comment comment = new Comment(commentID, "", null);
         comments.remove(comment);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Comment> getComments(long bookId) {
         return comments.getAllComments(bookId);

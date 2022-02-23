@@ -14,3 +14,5 @@ insert into Books (id, title, author, genre) values (1, 'Metel', 1, 4);
 insert into Books (id, title, author, genre) values (2, 'Mciri', 2, 4);
 
 insert into COMMENTS (id, text, book) values (1, 'wow', 2);
+insert into COMMENTS (id, text, book) values (2, 'super', 2);
+insert into COMMENTS (id, text, book) values (3, 'like', 1);

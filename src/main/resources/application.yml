@@ -6,6 +6,9 @@ spring:
     initialization-mode: always
 #    schema: schema.sql #не нужно указывать имя схемы если оно стандартное
 #    data: data.sql # аналогично
+  sql:
+    init:
+      mode: always
 
 #  shell:
 #    interactive:
@@ -22,6 +25,7 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: none
+    show-sql: true
 
   main:
     allow-circular-references: true
@@ -29,12 +33,6 @@ spring:
 #    properties:
 #      hibernate:
 #        format_sql: true
-
-    show-sql: true
-
-#  shell:    # отключение shell
-#    interactive:
-#      enabled: false
 
 logging:
   level:

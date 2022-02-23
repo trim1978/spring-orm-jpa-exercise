@@ -70,4 +70,9 @@ public class LibraryCommandComponent {
         return library.addComment(bookID, text);
     }
 
+    @ShellMethod(value = "Remove comment", key = {"remove_comment","rc"})
+    public void removeComment(long commentID) {
+        library.removeComment(commentID);
+    }
+
 }
