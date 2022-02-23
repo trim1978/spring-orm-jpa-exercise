@@ -6,6 +6,7 @@ import ru.otus.trim.model.Book;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.*;
 
@@ -40,8 +41,10 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public void deleteBookById(Book book) {
-        em.remove(book);
+    public void deleteBookById(long bookID) {
+        Query query = em.createQuery("delete from Book b where b.id = :id");
+        query.setParameter("id", bookID);
+        query.executeUpdate();
     }
 
 }

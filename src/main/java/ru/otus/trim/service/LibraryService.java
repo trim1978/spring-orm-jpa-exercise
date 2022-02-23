@@ -8,7 +8,7 @@ import ru.otus.trim.model.Genre;
 import java.util.List;
 
 public interface LibraryService {
-    Book removeBookById (long bookID);
+    void removeBookById (long bookID);
     Book getBookById (long bookID);
     List<Book> getBooks ();
     Author getAuthor (String name);

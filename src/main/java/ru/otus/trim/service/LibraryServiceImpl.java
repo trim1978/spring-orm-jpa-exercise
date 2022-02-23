@@ -25,10 +25,9 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Transactional
     @Override
-    public Book removeBookById(long bookID) {
-        Book book = books.getBookById(bookID);
-        if (book != null) books.deleteBookById(book);
-        return book;
+    public void removeBookById(long bookID) {
+        comments.removeComments(bookID);
+        books.deleteBookById(bookID);
     }
 
     @Transactional(readOnly = true)
@@ -76,8 +75,8 @@ public class LibraryServiceImpl implements LibraryService {
     @Transactional
     @Override
     public void removeComment(long commentID) {
-        Comment comment = new Comment(commentID, "", null);
-        comments.remove(comment);
+        //Comment comment = new Comment(commentID, "", null);
+        comments.remove(commentID);
     }
 
     @Transactional(readOnly = true)

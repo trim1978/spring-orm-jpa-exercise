@@ -35,9 +35,9 @@ public class LibraryCommandComponent {
 //    }
 
     @ShellMethod(value = "Remove book", key = {"remove_book","rb","db"})
-    public String removeBook(long bookID) {
-        Book removed = library.removeBookById(bookID);
-        return "book was removed " + removed;
+    public void removeBook(long bookID) {
+        library.removeBookById(bookID);
+        //return "book was removed " + removed;
     }
 
     @ShellMethod(value = "Get book", key = {"get_book", "gb"})

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface CommentRepository {
     void save (Comment comment);
-    void remove (Comment comment);
+    void remove (long commentID);
     List<Comment> getAllComments(long bookId);
+    void removeComments(long bookId);
 }

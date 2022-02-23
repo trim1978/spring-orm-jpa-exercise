@@ -6,6 +6,7 @@ import ru.otus.trim.model.Comment;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ParameterExpression;
@@ -29,9 +30,13 @@ public class CommentRepositoryJpa implements CommentRepository{
         }
     }
     @Override
-    public void remove (Comment comment){
-        em.remove(comment);
+    public void remove (long commentID){
+        //em.remove(comment);
+        Query query = em.createQuery("delete from Comment c where c.id = :id");
+        query.setParameter("id", commentID);
+        query.executeUpdate();
     }
+
     @Override
     public List<Comment> getAllComments(long bookId){
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -43,5 +48,12 @@ public class CommentRepositoryJpa implements CommentRepository{
                 cb.equal(c.get("book"), bookId)
         );
         return em.createQuery(q).getResultList();
+    }
+
+    @Override
+    public void removeComments(long bookId) {
+        Query query = em.createQuery("delete from Comment c where c.book.id = :book");
+        query.setParameter("book", bookId);
+        query.executeUpdate();
     }
 }

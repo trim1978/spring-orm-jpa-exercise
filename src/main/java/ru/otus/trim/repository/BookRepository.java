@@ -8,7 +8,7 @@ public interface BookRepository {
     List<Book> getAllBooks();
 
     Book save (Book book);
-    void deleteBookById(Book book);
+    void deleteBookById(long bookID);
 //
 //    void updateBookById(long id, int genre);
 //
