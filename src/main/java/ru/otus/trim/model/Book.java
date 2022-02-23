@@ -13,6 +13,7 @@ import java.util.List;
 @Table(name = "books") // Задает имя таблицы, на которую будет отображаться сущность@AllArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedEntityGraph(name = "author-genre-entity-graph",attributeNodes = {@NamedAttributeNode("author"),@NamedAttributeNode("genre")})
 public class Book {
     @Id // Позволяет указать какое поле является идентификатором
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Стратегия генерации идентификаторов

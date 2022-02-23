@@ -22,18 +22,6 @@ public class LibraryCommandComponent {
         return library.getAuthor(name);
     }
 
-//    @ShellMethod(value = "Add book", key = "ins_book")
-//    public Book addBook(String title, String author, String genre) {
-//        return library.setBook(new Book(0, title, addAuthor(author), library.getGenre(genre)));
-//    }
-//
-//    @ShellMethod(value = "Set book genre", key = "set_genre")
-//    public Book addBook(long bookID, String genre) {
-//        Book book = library.getBookById(bookID);
-//        book.setGenre(library.getGenre(genre));
-//        return library.setBook(book);
-//    }
-
     @ShellMethod(value = "Remove book", key = {"remove_book","rb","db"})
     public void removeBook(long bookID) {
         library.removeBookById(bookID);
@@ -73,6 +61,11 @@ public class LibraryCommandComponent {
     @ShellMethod(value = "Remove comment", key = {"remove_comment","rc"})
     public void removeComment(long commentID) {
         library.removeComment(commentID);
+    }
+
+    @ShellMethod(value = "Change comment", key = {"change_comment","cc"})
+    public void changeComment(long commentID, String text) {
+        library.changeComment(commentID, text);
     }
 
 }

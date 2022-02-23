@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.otus.trim.model.Book;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.*;
 
 @Repository
@@ -18,16 +15,22 @@ public class BookRepositoryJpa implements BookRepository {
     private final EntityManager em;
 
     @Override
-    public Book getBookById(long id) {
-        TypedQuery<Book> query = em.createQuery("select a from Book a where id="+id, Book.class);
-        //query.setParameter("id", id);
+    public Book getBookById(long bookID) {
+        EntityGraph<?> entityGraph = em.getEntityGraph("author-genre-entity-graph");
+        TypedQuery<Book> query = em.createQuery("select b from Book b where b.id=:id", Book.class);
+        query.setParameter("id", bookID);
+        query.setHint("javax.persistence.fetchgraph", entityGraph);
         return query.getSingleResult();
     }
 
     @Override
     public List<Book> getAllBooks() {
-        TypedQuery<Book> query = em.createQuery("select a from Book a", Book.class);
+        EntityGraph<?> entityGraph = em.getEntityGraph("author-genre-entity-graph");
+        TypedQuery<Book> query = em.createQuery("select b from Book b join fetch b.author join fetch b.genre", Book.class);
+        query.setHint("javax.persistence.fetchgraph", entityGraph);
         return query.getResultList();
+        //TypedQuery<Book> query = em.createQuery("select a from Book a", Book.class);
+        //return query.getResultList();
     }
 
     @Override
@@ -46,5 +49,4 @@ public class BookRepositoryJpa implements BookRepository {
         query.setParameter("id", bookID);
         query.executeUpdate();
     }
-
 }

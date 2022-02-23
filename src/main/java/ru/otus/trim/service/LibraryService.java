@@ -16,6 +16,7 @@ public interface LibraryService {
     List<Genre> getGenres ();
 
     Comment addComment (long bookID, String text);
+    void changeComment (long commentID, String text);
     void removeComment (long commentID);
     List<Comment> getComments(long bookId);
 }

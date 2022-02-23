@@ -71,6 +71,11 @@ public class LibraryServiceImpl implements LibraryService {
         return null;
     }
 
+    @Override
+    public void changeComment(long commentID, String text) {
+        comments.update(commentID, text);
+    }
+
     @Transactional
     @Override
     public void removeComment(long commentID) {
