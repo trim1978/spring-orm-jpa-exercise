@@ -1,7 +1,6 @@
 package ru.otus.trim.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.trim.model.Comment;
@@ -66,7 +65,7 @@ public class LibraryServiceImpl implements LibraryService {
         Book book = books.getBookById(bookID);
         if (book != null) {
             Comment comment = new Comment(0L, text, book);
-            comments.save(comment);
+            comments.add(comment);
             return comment;
         }
         return null;

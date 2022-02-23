@@ -20,19 +20,24 @@ public class CommentRepositoryJpa implements CommentRepository{
     private final EntityManager em;
 
     @Override
-    public void save (Comment comment){
+    public void add(Comment comment){
         if (comment.getId() <= 0) {
             em.persist(comment);
-            //return comment;
         } else {
-            //return
-                    em.merge(comment);
+            em.merge(comment);
         }
     }
     @Override
     public void remove (long commentID){
-        //em.remove(comment);
         Query query = em.createQuery("delete from Comment c where c.id = :id");
+        query.setParameter("id", commentID);
+        query.executeUpdate();
+    }
+
+    @Override
+    public void update(long commentID, String text) {
+        Query query = em.createQuery("update Comment c set c.text = :text where c.id = :id");
+        query.setParameter("text", text);
         query.setParameter("id", commentID);
         query.executeUpdate();
     }
