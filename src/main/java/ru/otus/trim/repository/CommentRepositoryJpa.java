@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -22,6 +23,7 @@ public class CommentRepositoryJpa implements CommentRepository{
     @Override
     public void add(Comment comment){
         if (comment.getId() <= 0) {
+            comment.setDatetime(new Date());
             em.persist(comment);
         } else {
             em.merge(comment);

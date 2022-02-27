@@ -64,7 +64,7 @@ public class LibraryServiceImpl implements LibraryService {
     public Comment addComment(long bookID, String text) {
         Book book = books.getBookById(bookID);
         if (book != null) {
-            Comment comment = new Comment(0L, text, book);
+            Comment comment = new Comment(text, book);
             comments.add(comment);
             return comment;
         }
