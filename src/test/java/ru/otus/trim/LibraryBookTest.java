@@ -2,67 +2,63 @@ package ru.otus.trim;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-import ru.otus.trim.model.Author;
 import ru.otus.trim.model.Book;
-import ru.otus.trim.model.Comment;
-import ru.otus.trim.model.Genre;
-import ru.otus.trim.repository.AuthorRepositoryJpa;
-import ru.otus.trim.repository.BookRepositoryJpa;
-import ru.otus.trim.repository.CommentRepositoryJpa;
-import ru.otus.trim.repository.GenreRepositoryJpa;
+import ru.otus.trim.service.LibraryServiceImpl;
 
-import java.util.Date;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("Репозиторий коментариев должен")
+@DisplayName("Репозиторий Book должен")
 @ComponentScan("ru.otus.trim")
 @DataJpaTest
-@RunWith(SpringRunner.class)
-@Transactional
-@Import({CommentRepositoryJpa.class,AuthorRepositoryJpa.class,GenreRepositoryJpa.class,BookRepositoryJpa.class})
-class LibraryCommentsJpaTest {
+@Import(LibraryServiceImpl.class)
+class LibraryBookTest {
 
     @Autowired
-    private TestEntityManager testEntityManager;
+    private TestEntityManager em;
 
     @Autowired
-    private CommentRepositoryJpa comments;
-    @Autowired
-    private BookRepositoryJpa books;
-    @Autowired
-    private AuthorRepositoryJpa authors;
-    @Autowired
-    private GenreRepositoryJpa genres;
+    private LibraryServiceImpl library;
 
 
-    @DisplayName("возвращать список всех комментариев")
+    @DisplayName("возвращать список всех книг")
     @Test
-    void shouldFindAllComments() {
-        assertThat(comments.getAllComments(1)).hasSize(2);
-        assertThat(comments.getAllComments(2)).hasSize(4);
+    void shouldFindAllBooks() {
+        List<Book> books = library.getBooks();
+        assertThat(books).hasSize(2);
     }
 
-    @DisplayName("добавление комментариев к книге")
+    @DisplayName("возвращать книгу по её id")
     @Test
-    void shouldAddComment() {
-        Comment comment = new Comment (0, "comment", books.getBookById(1), new Date());
-        //comments.add(comment);
-        //Long id = testEntityManager.persistAndGetId(comment, Long.class);
-        comment = testEntityManager.persistAndFlush(comment);
-        //Comment comment = testEntityManager.persistAndFlush(comment);
-        assertThat(comment).matches(t -> t.getText().equalsIgnoreCase("comment"))
-                .matches(t -> t.getDatetime().getTime() > 0L)
-                .matches(t -> t.getId() > 0);
-        assertThat(comment).isIn(comments.getAllComments(1));
+    void shouldFindBookById() {
+        Book book = library.getBookById(1);
+        assertThat(book)
+                .hasFieldOrPropertyWithValue("title", "Metel");
+    }
+
+    @DisplayName("удалять книгу по её id")
+    @Test
+    void shouldRemoveBookById() {
+        library.removeBookById(1);
+        assertThat(library.getBookById(1)).isNull();
+        assertThat(library.getComments(1)).hasSize(0);
+    }
+
+    @DisplayName("добалять книгу")
+    @Test
+    void shouldAddBookById() {
+        Book book = library.addBook("Na dne", "Gorky", "drama");
+        assertThat(book).matches(t -> t.getTitle().equalsIgnoreCase("Na dne"))
+                .matches(t -> t.getGenre().getName().equals("drama"))
+                .matches(t -> t.getId() > 0)
+            .matches(t -> t.getAuthor().getName().equals("Gorky"));
+        assertThat(book).isIn(library.getBooks());
     }
 
     //-------------------------------------------------------------------------------------------------------

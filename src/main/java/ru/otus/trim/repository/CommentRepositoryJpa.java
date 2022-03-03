@@ -37,11 +37,13 @@ public class CommentRepositoryJpa implements CommentRepository{
     }
 
     @Override
-    public void update(long commentID, String text) {
-        Query query = em.createQuery("update Comment c set c.text = :text where c.id = :id");
-        query.setParameter("text", text);
-        query.setParameter("id", commentID);
-        query.executeUpdate();
+    public Comment update(long commentID, String text) {
+        Comment comment = em.find (Comment.class, commentID);
+        if (comment != null){
+            comment.setText(text);
+            em.merge(comment);
+        }
+        return comment;
     }
 
     @Override

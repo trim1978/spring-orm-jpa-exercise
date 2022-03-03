@@ -33,6 +33,11 @@ public class LibraryCommandComponent {
         return library.getBookById(bookID);
     }
 
+    @ShellMethod(value = "Add book", key = {"add_book", "ab"})
+    public Book addBook(String title, String author, String genre) {
+        return library.addBook(title, author, genre);
+    }
+
     @ShellMethod(value = "Get all authors", key = {"get_authors", "gaa"})
     public List<Author> getAuthors() {
         return library.getAuthors();

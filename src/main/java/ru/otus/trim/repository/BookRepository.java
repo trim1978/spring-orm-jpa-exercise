@@ -9,10 +9,5 @@ public interface BookRepository {
 
     Book save (Book book);
     void deleteBookById(long bookID);
-//
-//    void updateBookById(long id, int genre);
-//
-//    Book insertBook(String title, int authorId, int genreId);
-//
     Book getBookById(long id);
 }

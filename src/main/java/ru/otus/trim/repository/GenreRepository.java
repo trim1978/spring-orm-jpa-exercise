@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface GenreRepository {
     Optional<Genre> getGenreById(int id);
-    //void save (Genre genre);
+    Genre save (Genre genre);
     List<Genre> getAllGenres();
 }

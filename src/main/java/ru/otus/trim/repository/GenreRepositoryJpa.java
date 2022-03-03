@@ -2,6 +2,7 @@ package ru.otus.trim.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.otus.trim.model.Author;
 import ru.otus.trim.model.Genre;
 
 import javax.persistence.EntityManager;
@@ -22,6 +23,15 @@ public class GenreRepositoryJpa implements GenreRepository {
         //TypedQuery<Genre> query = em.createQuery("select a from genres a where id="+id, Genre.class);
         //return query.getSingleResult();
         return Optional.ofNullable(em.find(Genre.class, id));
+    }
+    @Override
+    public Genre save(Genre genre) {
+        if (genre.getId() <= 0) {
+            em.persist(genre);
+            return genre;
+        } else {
+            return em.merge(genre);
+        }
     }
 
     @Override

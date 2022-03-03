@@ -20,7 +20,7 @@ public class BookRepositoryJpa implements BookRepository {
         TypedQuery<Book> query = em.createQuery("select b from Book b where b.id=:id", Book.class);
         query.setParameter("id", bookID);
         query.setHint("javax.persistence.fetchgraph", entityGraph);
-        return query.getSingleResult();
+        return query.getResultList().size() == 1 ? query.getSingleResult() : null;
     }
 
     @Override

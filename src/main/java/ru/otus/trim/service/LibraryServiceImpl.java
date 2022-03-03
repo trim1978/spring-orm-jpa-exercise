@@ -13,6 +13,7 @@ import ru.otus.trim.model.Book;
 import ru.otus.trim.model.Genre;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -43,8 +44,24 @@ public class LibraryServiceImpl implements LibraryService {
 
     @Transactional
     @Override
+    public Book addBook(String title, String author, String genre) {
+        Book book = new Book(0L, title, getAuthor(author), getGenre(genre));
+        books.save(book);
+        return book;
+    }
+
+    @Transactional
+    @Override
     public Author getAuthor(String name) {
-        return authors.getAllAuthors().stream().filter(t -> t.getName().equalsIgnoreCase(name)).findAny().orElse(authors.save(new Author(0, name)));
+        Optional<Author> author = authors.getAllAuthors().stream().filter(t -> t.getName().equalsIgnoreCase(name)).findAny();
+        return author.orElseGet(() -> authors.save(new Author(0, name)));
+    }
+
+    @Transactional
+    @Override
+    public Genre getGenre(String name) {
+        Optional<Genre> genre = genres.getAllGenres().stream().filter(t -> t.getName().equalsIgnoreCase(name)).findAny();
+        return genre.orElseGet(() -> genres.save(new Genre(0, name)));
     }
 
     @Transactional(readOnly = true)
@@ -72,8 +89,8 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public void changeComment(long commentID, String text) {
-        comments.update(commentID, text);
+    public Comment changeComment(long commentID, String text) {
+        return comments.update(commentID, text);
     }
 
     @Transactional
