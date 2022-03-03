@@ -1,45 +1,59 @@
 package ru.otus.trim;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import ru.otus.trim.model.Book;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.trim.model.Comment;
 import ru.otus.trim.service.LibraryServiceImpl;
 
-import java.util.List;
+import java.util.Date;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий Book должен")
+@DisplayName("Репозиторий коментариев должен")
 @ComponentScan("ru.otus.trim")
 @DataJpaTest
+@RunWith(SpringRunner.class)
 @Import(LibraryServiceImpl.class)
-class LibraryJpaTest {
+class LibraryCommentsTest {
 
     @Autowired
-    private TestEntityManager em;
+    private TestEntityManager testEntityManager;
 
     @Autowired
     private LibraryServiceImpl library;
 
-
-    @DisplayName("возвращать список всех книг")
+    @DisplayName("возвращать список всех комментариев")
     @Test
-    void shouldFindAllBooks() {
-        List<Book> employees = library.getBooks();
-        assertThat(employees).hasSize(2);
+    void shouldFindAllComments() {
+        assertThat(library.getComments(1)).hasSize(2);
+        assertThat(library.getComments(2)).hasSize(4);
     }
 
-    @DisplayName("возвращать книгу по её id")
+    @DisplayName("добавление комментариев к книге")
     @Test
-    void shouldFindBookById() {
-        Book employee = library.getBookById(1);
-        assertThat(employee)
-                .hasFieldOrPropertyWithValue("title", "Metel");
+    void shouldAddComment() {
+        //Comment comment = new Comment (0, "comment", library.getBookById(1), new Date());
+        Comment comment = library.addComment(1, "comment");
+        //testEntityManager.getEntityManager().persist(comment);
+        //comment = testEntityManager.persist(comment);
+        //Comment comment = testEntityManager.persistAndFlush(comment);
+        assertThat(comment).matches(t -> t.getText().equalsIgnoreCase("comment"))
+                .matches(t -> t.getDatetime().getTime() > 0L)
+                .matches(t -> t.getId() > 0);
+        assertThat(comment).isIn(library.getComments(1));
     }
 
     //-------------------------------------------------------------------------------------------------------

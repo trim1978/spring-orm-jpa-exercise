@@ -20,9 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(LibraryServiceImpl.class)
 class LibraryNplusOneTest {
 
-    private static final int EXPECTED_NUMBER_OF_BOOKS = 2;
-    private static final long BOOK_ID = 1L;
-
     @Autowired
     private LibraryServiceImpl repositoryJpa;
 
@@ -32,8 +29,8 @@ class LibraryNplusOneTest {
     @DisplayName(" должен загружать информацию о нужном студенте по его id")
     @Test
     void shouldFindExpectedStudentById() {
-        val optionalActualStudent = repositoryJpa.getBookById(BOOK_ID);
-        val expectedStudent = em.find(Book.class, BOOK_ID);
+        val optionalActualStudent = repositoryJpa.getBookById(1L);
+        val expectedStudent = em.find(Book.class, 1L);
         assertThat(optionalActualStudent).usingRecursiveComparison().isEqualTo(expectedStudent);
     }
 
@@ -46,8 +43,8 @@ class LibraryNplusOneTest {
 
 
         System.out.println("\n\n\n\n----------------------------------------------------------------------------------------------------------");
-        val students = repositoryJpa.getBooks();
-        assertThat(students).isNotNull().hasSize(EXPECTED_NUMBER_OF_BOOKS)
+        val comments = repositoryJpa.getBooks();
+        assertThat(comments).isNotNull().hasSize(2)
                 .allMatch(s -> !s.getTitle().equals(""))
                 .allMatch(s -> s.getAuthor() != null)
                 .allMatch(s -> s.getGenre() != null)
@@ -65,8 +62,8 @@ class LibraryNplusOneTest {
 
 
         System.out.println("\n\n\n\n----------------------------------------------------------------------------------------------------------");
-        val students = repositoryJpa.getComments(2);
-        assertThat(students).isNotNull().hasSize(2)
+        val comments = repositoryJpa.getComments(2);
+        assertThat(comments).isNotNull().hasSize(4)
                 .allMatch(s -> !s.getText().equals(""))
                 .allMatch(s -> s.getBook() != null)
                 .allMatch(s -> s.getBook().getAuthor() != null)
@@ -74,6 +71,6 @@ class LibraryNplusOneTest {
         //.allMatch(s -> s.getEmails() != null && s.getEmails().size() > 0)
         ;
         System.out.println("----------------------------------------------------------------------------------------------------------\n\n\n\n");
-        assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isEqualTo(2);
+        assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isEqualTo(3);
     }
 }
