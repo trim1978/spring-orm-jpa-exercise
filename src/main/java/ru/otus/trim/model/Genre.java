@@ -1,16 +1,17 @@
 package ru.otus.trim.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+
 @Entity // Указывает, что данный класс является сущностью
 @Table(name = "genres") // Задает имя таблицы, на которую будет отображаться сущность@AllArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString()
+@Getter
+@Setter
 public class Genre {
     @Id // Позволяет указать какое поле является идентификатором
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Стратегия генерации идентификаторов

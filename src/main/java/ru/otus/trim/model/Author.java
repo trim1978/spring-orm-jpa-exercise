@@ -4,13 +4,14 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+
 @Entity // Указывает, что данный класс является сущностью
 @Table(name = "authors") // Задает имя таблицы, на которую будет отображаться сущность@AllArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode()
 @ToString()
+@Getter
+@Setter
 public class Author {
     @Id // Позволяет указать какое поле является идентификатором
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Стратегия генерации идентификаторов
